@@ -1,0 +1,13 @@
+{
+  "name": "uxbot-slack",
+  "version": "1.0.0",
+  "description": "greet new members on slack",
+  "main": "bot.js",
+  "scripts": {
+    "start": "node bot.js"
+  },
+  "dependencies": {
+    "beepboop-botkit": "^1.4.0",
+    "botkit": "~0.1.1"
+  }
+}

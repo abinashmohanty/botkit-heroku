@@ -1,0 +1,43 @@
+{
+  "name": "gsiuxd uxbot slack",
+  "version": "0.0.1",
+  "description": "A starter kit for building a custom bot with Botkit Studio on Beep Boop",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js -w .",
+    "test": "standard"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "botkit": "^0.4",
+    "botkit-storage-beepboop": "^1.0.0",
+    "debug": "^2.3.3",
+    "express": "^4.14.0",
+    "querystring": "^0.2.0",
+    "request": "^2.79.0",
+    "wordfilter": "^0.2.6"
+  },
+  "devDependencies": {
+    "nodemon": "^1.11.0",
+    "standard": "^8.6.0",
+    "redis": "*"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/BeepBoopHQ/starter-botkit-bot.git"
+  },
+  "bugs": {
+    "url": "https://github.com/BeepBoopHQ/starter-botkit-bot/issues"
+  },
+  "homepage": "https://github.com/BeepBoopHQ/starter-botkit-bot",
+  "keywords": [
+    "bots",
+    "chatbots",
+    "slack",
+    "beepboop",
+    "botkit"
+  ],
+  "author": "Brad Harris",
+  "license": "MIT"
+}
