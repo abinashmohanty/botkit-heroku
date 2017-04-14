@@ -8,16 +8,20 @@
 /* Uses the slack button feature to offer a real time bot to multiple teams */
 var Botkit = require('./lib/Botkit.js');
 
-if (!process.env.clientId || !process.env.clientSecret || !process.env.port) {
+// Botkit-based Redis store
+//var Redis_Store = require('./redis_storage.js');
+var redis_url = process.env.REDISCLOUD_URL ||"redis://rediscloud:oC2nQKIxK2nqd1Qa@redis-16935.c10.us-east-1-4.ec2.cloud.redislabs.com:16935"
+var redis_store = new Redis_Store({url: redis_url});
+
+var port = process.env.PORT || process.env.port;
+
+if (!process.env.clientId || !process.env.clientSecret || !port) {
   console.log('Error: Specify clientId clientSecret and port in environment');
   process.exit(1);
 }
 
-
 var controller = Botkit.slackbot({
-  // interactive_replies: true, // tells botkit to send button clicks into conversations
-  json_file_store: './store_data/',
-  // rtm_receive_messages: false, // disable rtm_receive_messages if you enable events api
+  storage: REDISCLOUD_URL,
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
@@ -27,7 +31,14 @@ var controller = Botkit.slackbot({
 );
 
 
-controller.setupWebserver(process.env.port,function(err,webserver) {
+
+
+controller.setupWebserver(port,function(err,webserver) {
+
+  webserver.get('/',function(req,res) {
+    res.sendFile('index.html', {root: __dirname});
+  });
+
   controller.createWebhookEndpoints(controller.webserver);
 
   controller.createOauthEndpoints(controller.webserver,function(err,req,res) {
