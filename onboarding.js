@@ -17,17 +17,18 @@ var Botkit = require('./lib/Botkit.js');
 var port = process.env.PORT || 8080;
 
 
+mongoStorage = require('botkit-storage-mongo')({mongoUri: process.env.MONGODB_URI});
+controller = Botkit.slackbot({
+    storage: mongoStorage
+});
+
+
 if (!process.env.clientId || !process.env.clientSecret/* || !process.env.PORT*/) {
   console.log('Error: Specify clientId clientSecret and port in environment');
   process.exit(1);
 }
 
-mongoStorage = require('botkit-storage-mongo');
-DATABASE_URI = process.env.MONGODB_URI || process.env.MONGOHQ_URL;
-
-
 var controller = Botkit.slackbot({
-  storage: mongoStorage
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
