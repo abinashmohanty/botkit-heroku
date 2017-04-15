@@ -22,8 +22,9 @@ if (!process.env.clientId || !process.env.clientSecret/* || !process.env.PORT*/)
   process.exit(1);
 }
 
-var mongoUri = process.eng.MONGODB_URI;
-var mongoStorage = require('botkit-storage-mongo')({mongoUri:mongoUri});
+mongoStorage = require('botkit-storage-mongo');
+DATABASE_URI = process.env.MONGODB_URI || process.env.MONGOHQ_URL;
+
 
 var controller = Botkit.slackbot({
   storage: mongoStorage
