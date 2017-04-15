@@ -10,15 +10,18 @@ var Botkit = require('./lib/Botkit.js');
 
 // Botkit-based Redis store
 //var Redis_Store = require('./redis_storage.js');
-var redis_url = process.env.REDISCLOUD_URL ||"redis://rediscloud:oC2nQKIxK2nqd1Qa@redis-16935.c10.us-east-1-4.ec2.cloud.redislabs.com:16935"
-var redis_store = new Redis_Store({url: redis_url});
+//var redis_url = process.env.REDISCLOUD_URL ||"redis://rediscloud:oC2nQKIxK2nqd1Qa@redis-16935.c10.us-east-1-4.ec2.cloud.redislabs.com:16935"
+//var redis_store = new Redis_Store({url: redis_url});
 
-var port = process.env.PORT || process.env.port;
+// process.env.PORT lets the port be set by Heroku
+var port = process.env.PORT || 8080;
 
-if (!process.env.clientId || !process.env.clientSecret || !port) {
+
+if (!process.env.clientId || !process.env.clientSecret || !process.env.PORT) {
   console.log('Error: Specify clientId clientSecret and port in environment');
   process.exit(1);
 }
+
 
 var controller = Botkit.slackbot({
   storage: REDISCLOUD_URL,
@@ -31,8 +34,15 @@ var controller = Botkit.slackbot({
 );
 
 
+//prepare the webhook
+controller.setupWebserver(process.env.PORT || 8080, function(err, webserver) {
+    controller.createWebhookEndpoints(webserver, bot, function() {
+        // handle errors...
+    });
+});
 
 
+/*
 controller.setupWebserver(port,function(err,webserver) {
 
   webserver.get('/',function(req,res) {
@@ -49,7 +59,7 @@ controller.setupWebserver(port,function(err,webserver) {
     }
   });
 });
-
+*/
 
 // just a simple way to make sure we don't
 // connect to the RTM twice for the same team
