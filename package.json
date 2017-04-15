@@ -4,7 +4,8 @@
   "description": "GSIUXD *Slack Bot* `Version 1.2`",
   "main": "onboarding.js",
   "dependencies": {
-    "botkit": "^0.5.0"
+    "botkit": "^0.5.0",
+    "redis": "*"  
   },
   "devDependencies": {},
   "scripts": {
