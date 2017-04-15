@@ -22,11 +22,17 @@ if (!process.env.clientId || !process.env.clientSecret/* || !process.env.PORT*/)
   process.exit(1);
 }
 
+// Botkit-based Redis store
+var Redis_Store = require('./redis_storage.js');
+var redis_url = process.env.REDISCLOUD_URL ||"redis://127.0.0.1:6379"
+var redis_store = new Redis_Store({url: redis_url});
 
-var mongoStorage = require('botkit-storage-mongo')({mongoUri: process.env.MONGODB_URI});
+
+//var mongoStorage = require('botkit-storage-mongo')({mongoUri: process.env.MONGODB_URI});
 
 var controller = Botkit.slackbot({
-  storage: mongoStorage
+  storage: redis_store,
+  //storage: mongoStorage
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
