@@ -22,7 +22,7 @@ if (!process.env.clientId || !process.env.clientSecret/* || !process.env.PORT*/)
   process.exit(1);
 }
 
-var mongoUri = process.eng.MONGODB_URI || "mongodb://heroku_k6ljzktn:icds3map85gdmee9a3u2rld65k@ds061158.mlab.com:61158/heroku_k6ljzktn";
+var mongoUri = process.eng.MONGODB_URI;
 var mongoStorage = require('botkit-storage-mongo')({mongoUri:mongoUri});
 
 var controller = Botkit.slackbot({
