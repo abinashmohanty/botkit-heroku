@@ -34,20 +34,8 @@ var controller = Botkit.slackbot({
 );
 
 
-//prepare the webhook
-controller.setupWebserver(process.env.PORT || 8080, function(err, webserver) {
-    controller.createWebhookEndpoints(webserver, bot, function() {
-        // handle errors...
-    });
-});
 
-
-/*
-controller.setupWebserver(port,function(err,webserver) {
-
-  webserver.get('/',function(req,res) {
-    res.sendFile('index.html', {root: __dirname});
-  });
+controller.setupWebserver(process.env.PORT || 8080,function(err,webserver) {
 
   controller.createWebhookEndpoints(controller.webserver);
 
@@ -59,7 +47,7 @@ controller.setupWebserver(port,function(err,webserver) {
     }
   });
 });
-*/
+
 
 // just a simple way to make sure we don't
 // connect to the RTM twice for the same team
