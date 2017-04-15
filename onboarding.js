@@ -17,7 +17,7 @@ var Botkit = require('./lib/Botkit.js');
 var port = process.env.PORT || 8080;
 
 
-if (!process.env.clientId || !process.env.clientSecret || !process.env.PORT) {
+if (!process.env.clientId || !process.env.clientSecret/* || !process.env.PORT*/) {
   console.log('Error: Specify clientId clientSecret and port in environment');
   process.exit(1);
 }
