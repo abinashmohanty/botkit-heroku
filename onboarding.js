@@ -24,7 +24,7 @@ if (!process.env.clientId || !process.env.clientSecret/* || !process.env.PORT*/)
 
 
 var controller = Botkit.slackbot({
-  storage: REDISCLOUD_URL,
+  /*storage: REDISCLOUD_URL,*/
 }).configureSlackApp(
   {
     clientId: process.env.clientId,
