@@ -60,7 +60,6 @@ controller.setupWebserver(process.env.PORT || 8080,function(err,webserver) {
   });
 });
 
-
 // just a simple way to make sure we don't
 // connect to the RTM twice for the same team
 var _bots = {};
@@ -162,6 +161,28 @@ controller.on('create_bot',function(bot,config) {
     });
   }
 
+});
+
+// Slash comamnd from botkit
+/*controller.on('slash_command', function(bot, message) {
+    // check message.command
+    // and maybe message.text...
+    // use EITHER replyPrivate or replyPublic...
+    bot.replyPrivate(message, 'This is a private reply to the ' + message.command + ' slash command!');
+
+    // and then continue to use replyPublicDelayed or replyPrivateDelayed
+    bot.replyPublicDelayed(message, 'This is a public reply to the ' + message.command + ' slash command!');
+
+    bot.replyPrivateDelayed(message, ':dash:');
+
+});
+*/
+
+// Slash command - easy one
+controller.on('slash_command', function (bot, message) {
+    console.log('Here is the actual slash command used: ', message.command);
+
+    bot.replyPublic(message, '<@' + message.user + '> What are you working on!');
 });
 
 
