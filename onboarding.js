@@ -373,7 +373,7 @@ controller.hears(['get gsiuxd invite', 'to invite someone', 'add into this group
 });
 
 // Replies to lol, haha, and funny words
-controller.hears(['LOL','lmao','LMAO','omg','LOL','lolz','lol.','haha','HAHA','hahahahahaha','bahahaahah','ha.','hehe'], ['direct_message','direct_mention','mention'], function(bot, message) {
+controller.hears(['LOL','lmao','LMAO','omg','LOL','lolz','lol.','haha','HAHA','hahahahahaha','bahahaahah','hehe'], ['direct_message','direct_mention','mention'], function(bot, message) {
     var message_options = [
     	"I'm still learning emotions :thought_balloon:",
         "What's this? :thought_balloon:",
