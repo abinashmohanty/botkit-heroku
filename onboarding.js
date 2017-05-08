@@ -1,17 +1,11 @@
 /*+-+-+ +-+-+-+-+-+ +-+-+
 |U|X| |S|l|a|c|k| |B|O|T|
 +-+-+ +-+-+-+-+-+ +-+-+*/
+// This is a UXbot; a slack app for GSIUXD slack community. 
 
-//Slack configuration for team  
-
-
-/* Uses the slack button feature to offer a real time bot to multiple teams */
+//Slack App configuration for multiple team  
 var Botkit = require('./lib/Botkit.js');
 
-// Botkit-based Redis store
-//var Redis_Store = require('./redis_storage.js');
-//var redis_url = process.env.REDISCLOUD_URL ||"redis://rediscloud:oC2nQKIxK2nqd1Qa@redis-16935.c10.us-east-1-4.ec2.cloud.redislabs.com:16935"
-//var redis_store = new Redis_Store({url: redis_url});
 
 // process.env.PORT lets the port be set by Heroku
 var port = process.env.PORT || 8080;
@@ -42,7 +36,7 @@ var controller = Botkit.slackbot({
 );
 
 
-
+// setup web server
 controller.setupWebserver(process.env.PORT || 8080,function(err,webserver) {
 
   webserver.get('/',function(req,res) {
@@ -137,7 +131,7 @@ controller.on('interactive_message_callback', function(bot, message) {
 
 });
 
-
+// Bot replies to the person via dm who invites the bot into the channel
 controller.on('create_bot',function(bot,config) {
 
   if (_bots[bot.config.token]) {
@@ -163,28 +157,6 @@ controller.on('create_bot',function(bot,config) {
 
 });
 
-// Slash comamnd from botkit
-/*controller.on('slash_command', function(bot, message) {
-    // check message.command
-    // and maybe message.text...
-    // use EITHER replyPrivate or replyPublic...
-    bot.replyPrivate(message, 'This is a private reply to the ' + message.command + ' slash command!');
-
-    // and then continue to use replyPublicDelayed or replyPrivateDelayed
-    bot.replyPublicDelayed(message, 'This is a public reply to the ' + message.command + ' slash command!');
-
-    bot.replyPrivateDelayed(message, ':dash:');
-
-});
-*/
-
-// Slash command - easy one
-controller.on('slash_command', function (bot, message) {
-    console.log('Here is the actual slash command used: ', message.command);
-
-    bot.replyPublic(message, '<@' + message.user + '> What are you working on!');
-});
-
 
 // Handle events related to the websocket connection to Slack
 controller.on('rtm_open',function(bot) {
@@ -197,49 +169,14 @@ controller.on('rtm_close',function(bot) {
 });
 
 
-
-// Bot hears "hellow there"
+// Bot hears "hello there"
 controller.hears(['hello there'], 'direct_message,direct_mention,mention', function(bot, message) {
     var userID = message.user 
     bot.reply(message, 'Can I help you, ' + message.user + '?');
 });
 
 
-// mentions when someone joins our channel in public
-/*
-controller.on('user_channel_join', function(bot, message) {
-    var userID = message.user 
-    bot.reply(message,'<@' + message.user + '> Welcome aboard!');
-});
-*/
-
-// welcome new users in public + information about our community
-/*
-controller.on('user_channel_join', function(bot, message) {
-var userID = message.user
-  // start a conversation to handle this response.
-  bot.startConversation(message,function(err,convo) {
-
-    convo.say('Hello!');
-    convo.say('<@' + message.user + '> Welcome aboard!');
-
-  });
-});
-*/
-
-// DM new users + information about our community
-//controller.on('user_channel_join', function(bot, message) {
-//var userID = message.user;
-//var channel = "#general";
-  // start a conversation to handle this response.
-  //bot.startPrivateConversation(message,function(err,convo) {
-
-    //convo.say('Welcome to our UX community!');
-    //convo.say('Use <#C3AFEP19U> to check new members.');
-
-  //});
-//});
-
+// greet new nembers when then join #general
 
 var greet = "_Hello There_ :tada:! I am your Slackbot :space_invader: , and Welcome to GSIUXD - Get Started in UX Design.\n\n\n:rocket: This design community has mentors, learners, designers, and engineers and everyone in between. The primary goal of this UX group is to help each other learn and level up our collective design skills.\n\n\n:rocket: _Give your short intro_ in #member_introductions that will help us to know about you, where you work, and what are your expectations from this community.\n\n\n:rocket: _About our channels_\n<#C0L8M4D0V> - Common talk\n<#C0LLFQD4Y> - Post design jobs, or discuss anything that relates to your career\n<#C0M2W80J1> - Online and offline UX related events\n<#C0LLE7JL9> - Ask a question that doesn't fit in any of our other channels\n<#C0LLE9J9X> - Share interesting stuff like design articles\n<#C0LLQ26NA> - Design tools and resources\n<#C0R43MBGS> - Get feedback for your designs\n<#C4K141RLY> - UX books you have read, wish to read, and discussions\n<#C4NCLSRTJ> - Best practices on user research\n<#C4PNLBJJG> - Discuss everything about visual design\n<#C4PNLMNTW> - Level up your design game\n<#C4PNLK4KW> - Sketches, wireframes, prototypes\n<#C4QCEMMF1> - Discuss how to test the products you build with users"
 
@@ -249,33 +186,6 @@ controller.on('team_join', function(bot, message){
   console.log(message)
   bot.say({channel: message.user.id, text: greet});
 });
-
-// team join - welcome message test 
-controller.hears(['greet', 'greetings'], ['direct_message','direct_mention','mention'], function (bot, message) {
-
-  // start a conversation to handle this response.
-  bot.startConversation(message,function(err,convo) {
-
-    convo.say('*Hello There*! I am your slackbot, and Welcome to *GSIUXD* - Get Started in UX Design.');
-    convo.say('This design community has got mentors, learners, designers, and engineers. The primary goal of this UX group is to help others to learn and share what you gained in the past.');
-    convo.say('*Give your short intro* in <#C0LLE3BNJ> that will help us to know about you, where you work, and what are your expectations from this community.');
-    convo.say('*Join our top channels*\n<#C0L8M4D0V> - Common talk\n<#design_feedback> - Get feedback for your design\n<#C0LLFQD4Y> - Post design jobs, or discuss anything that relates to design career\n<#C0M2W80J1> - Local meetups\n<#ask_questions> - Asking a question\n<#C0LLE9J9X> - Share interesting stuffs like design articles\n<#C0LLQ26NA> - Design tools and resources\n<#C0R43MBGS> - Getting feedback of your design\n<#C4K141RLY> - UX books you have read, wish to read, and discussions\n<#C4NCLSRTJ> - Best practices on user research\n<#C4PNLBJJG> - Discuss everything under visual design\n<#C4PNLMNTW> - Discuss how to level up your design game\n<#C4PNLK4KW> - Sketches, wireframes, prototypes\n<#C4QCEMMF1> - Discuss how people use your product you build');
-    convo.say('Also, ask me specific questions as I am *not 100% built for human*. Feel free to try me!');
-    convo.say('Get all UX conversations on the go by downloading our *<https://slack.com/downloads/|Slack App>*');
-});
-});
-
-/* ===============
-   Bot hears 
-   =============== */
-
-
-// "gsiuxd invite" or "ux group invite"
-/*
-controller.hears(['get gsiuxd invite', 'gsiuxd invite','slack invite', 'ux slack invite', 'group invite'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
-bot.reply(message, 'Here is the slack invite link to join in less than 30 secs *<https://gsiuxd.herokuapp.com/|GSIUXD Slack Invite>*')
-});
-*/
 
 
 // Bot hears "slack community promotion" and shares an attachment 
@@ -301,9 +211,6 @@ controller.hears('community promotion','direct_message,direct_mention',function(
 });
 
 
-/* ==============================
-Conversations about the Bot user 
-============================== */
 controller.hears(['hi', 'hello', 'hey', 'hi bot', 'you there'], ['direct_message','direct_mention','mention'], function (bot, message) {
 
   // start a conversation to handle this response.
@@ -315,7 +222,11 @@ controller.hears(['hi', 'hello', 'hey', 'hi bot', 'you there'], ['direct_message
   });
 });
 
+// let me introduce @uxbot
+controller.hears(["introduce our slackbot"], [ 'direct_message','direct_mention','mention'], function (bot, message) {
 
+bot.reply(message, "Thank you :thumbsup:");
+});
 
 /* Bot hears ux invite and conform via conversation */
 controller.hears(['get gsiuxd invite', 'to invite someone', 'add into this group', 'gsiuxd invite','slack invite', 'ux slack invite', 'group invite'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
@@ -407,6 +318,30 @@ controller.hears(['oops','oops!','my bad','sorry', 'sorry!'], ['direct_message',
   // do something here, the "is typing" animation is visible
 
 });
+
+// bot hears negative keywords 
+controller.hears(['anus','arse','arsehole','ass', 'ass-hat','ass-jabber','assbag','asscock', 'assclown', 'asscock','assfuck','assface','asshat','asshead', 'asshole','assshit','assshole','asssucker', 'Whore', 'motherfucker','mother fucker'], ['direct_message','direct_mention','mention'], function(bot, message) {
+
+  bot.api.reactions.add({
+      timestamp: message.ts,
+      channel: message.channel,
+      name: 'no_entry_sign',
+  }, function(err, res) {
+      if (err) {
+          bot.botkit.log('Failed to add emoji reaction :(', err);
+      }
+  });
+
+  controller.storage.users.get(message.user, function(err, user) {
+      if (user && user.name) {
+          bot.reply(message, 'Hello ' + user.name + '!!');
+      } else {
+          bot.reply(message, "These words are no allowed in here!" );
+      }
+  });
+
+});
+
 
 // React to phraes like thanks 
 controller.hears(['Okay','cool','wow','superb', 'excellent','hm.','hm..','i see', 'alright', 'ok','yes'], ['direct_message','direct_mention','mention'], function(bot, message) {
@@ -588,7 +523,7 @@ controller.hears(".*", ["direct_message", "direct_mention",'mention'], function 
     bot.reply(message, chosen_message)
 });
 
-
+// bot asks "do you have a specifc question"
 controller.on(['direct_message','mention','direct_mention'],function(bot,message) {
   bot.api.reactions.add({
     timestamp: message.ts,
@@ -600,6 +535,7 @@ controller.on(['direct_message','mention','direct_mention'],function(bot,message
   });
 });
 
+// storage team data
 controller.storage.teams.all(function(err,teams) {
 
   if (err) {
@@ -622,10 +558,43 @@ controller.storage.teams.all(function(err,teams) {
 });
 
 
-/* Slack Team Channel Archives  
-============================================ */
+
+//Using attachments
+controller.hears(["heaven$"], [ 'direct_message','direct_mention','mention'], function (bot, message) {
+  var reply_with_attachments = {
+    'username': 'uxbot',
+    'text': 'I heard you used `heaven` as a keyword.',
+    'attachments': [
+      {
+        //'fallback': 'To be useful, I need you to invite me in a channel.',
+        'title': 'How can I help you?',
+        //'text': 'To be useful, I need you to invite me in a channel ',
+        'color': '#7CD197'
+      }
+    ],
+    }
+
+  bot.reply(message, reply_with_attachments);
+});
+
+/* ====================================
+/* Slash Command starts
+======================================= */
+
+// add commands 
+
+/* ====================================
+/* Slash Command ends 
+======================================= */
+
+
+/* ====================================
+/* GSIUXD Slack Community Channel Archives  
+======================================= */
 
 // https://getstartedinuxdesign.slack.com/archives
+// The following channel IDs won't work for your slack team.
+// Just make sure to update the following channels and their IDs before testing for your slack team. 
 
 
 // #general                         C0L8M4D0V
