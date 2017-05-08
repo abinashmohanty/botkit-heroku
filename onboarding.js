@@ -322,23 +322,16 @@ controller.hears(['oops','oops!','my bad','sorry', 'sorry!'], ['direct_message',
 // bot hears negative keywords 
 controller.hears(['anus','arse','arsehole','ass', 'ass-hat','ass-jabber','assbag','asscock', 'assclown', 'asscock','assfuck','assface','asshat','asshead', 'asshole','assshit','assshole','asssucker', 'Whore', 'motherfucker','mother fucker'], ['direct_message','direct_mention','mention'], function(bot, message) {
 
-  bot.api.reactions.add({
-      timestamp: message.ts,
-      channel: message.channel,
-      name: 'no_entry_sign',
-  }, function(err, res) {
-      if (err) {
-          bot.botkit.log('Failed to add emoji reaction :(', err);
-      }
-  });
+  var message_options = [
+    	  "Sorry! These words are not allowed!",
+    	  "That's a slang! Try to avoid such words.",
+        "Don't use such words."
+	]
+	var random_index = Math.floor(Math.random() * message_options.length)
+	var chosen_message = message_options[random_index]
 
-  controller.storage.users.get(message.user, function(err, user) {
-      if (user && user.name) {
-          bot.reply(message, 'Hello ' + user.name + '!!');
-      } else {
-          bot.reply(message, "These words are no allowed in here!" );
-      }
-  });
+  bot.reply(message, chosen_message)
+    // do something here, the "is typing" animation is visible
 
 });
 
@@ -358,7 +351,7 @@ controller.hears(['Okay','cool','wow','superb', 'excellent','hm.','hm..','i see'
 
 });
 
-// Replies  to phraese like Welcome, Don't mention, etc when hear thank you, etc.
+// Replies to phraese like Welcome, Don't mention, etc when hear thank you, etc.
 controller.hears(['Thanks','thx','thank u','thank you','thanks a lot', 'thanks man', 'thank you so much'], ['direct_message','direct_mention','mention'], function(bot, message) {
     var message_options = [
     	"You got it",
