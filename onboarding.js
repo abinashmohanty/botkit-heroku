@@ -283,6 +283,12 @@ controller.hears(['get gsiuxd invite', 'to invite someone', 'add into this group
 
 });
 
+// bot hears its name
+controller.hears(['uxbot', 'ux(.*)bot', 'our(.*)slackbot'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
+  bot.reply(message, "I'm also a slackbot, but compiled into a Slack App.")
+})
+
+
 // Replies to lol, haha, and funny words
 controller.hears(['LOL','lmao','LMAO','omg','LOL','lolz','lol.','haha','HAHA','hahahahahaha','bahahaahah','hehe'], ['direct_message','direct_mention','mention'], function(bot, message) {
     var message_options = [
@@ -368,6 +374,45 @@ controller.hears(['Thanks','thx','thank u','thank you','thanks a lot', 'thanks m
   bot.reply(message, chosen_message)
     // do something here, the "is typing" animation is visible
 
+});
+
+// bot hears "what .... gsiuxd?"
+controller.hears(["what(.*)gsiuxd", 'community about'], ['direct_message','direct_mention','mention'], function(bot, message) {
+    var message_options = [
+    	  "It's a common place for designers to discuss various stuff on UX design.",
+    	  "It's a place where UXers hang out together.",
+        "GSIUXD is India's first UX community on slack.",
+        "A place where you will find both UX mentors and learners.",
+        "A place where you will learn everything for free."
+	]
+	var random_index = Math.floor(Math.random() * message_options.length)
+	var chosen_message = message_options[random_index]
+
+  bot.reply(message, chosen_message)
+    // do something here, the "is typing" animation is visible
+
+});
+
+// bot's maker 
+
+controller.hears(["who(.*)made(.*)you?", 'who(.*)built(.*)you?'], [ 'direct_message','direct_mention','mention'], function (bot, message) {
+bot.reply(message, 'I was designed and tested by GSIUXD community')
+});
+
+// bot's origin
+
+controller.hears(["are you(.*)from india?"], [ 'direct_message','direct_mention','mention'], function (bot, message) {
+bot.reply(message, "Yes!")
+});
+
+controller.hears(["where are you(.*)from"], [ 'direct_message','direct_mention','mention'], function (bot, message) {
+bot.reply(message, "I'm from India")
+});
+
+// bot's intro
+
+controller.hears(["what's your(.*)name?", 'what is your(.*)name', 'your name', 'your real name'], [ 'direct_message','direct_mention','mention'], function (bot, message) {
+bot.reply(message, "I'm your slackbot for GSIUXD slack team.")
 });
 
 //add to list 
@@ -569,6 +614,14 @@ controller.hears(["heaven$"], [ 'direct_message','direct_mention','mention'], fu
 
   bot.reply(message, reply_with_attachments);
 });
+
+
+/* ====================================
+/* Bot's bio
+======================================= */
+
+
+
 
 /* ====================================
 /* Slash Command starts
