@@ -629,27 +629,7 @@ controller.on(['direct_message','mention','direct_mention'],function(bot,message
   });
 });
 
-// storage team data
-controller.storage.teams.all(function(err,teams) {
 
-  if (err) {
-    throw new Error(err);
-  }
-
-  // connect all teams with bots up to slack!
-  for (var t  in teams) {
-    if (teams[t].bot) {
-      controller.spawn(teams[t]).startRTM(function(err, bot) {
-        if (err) {
-          console.log('Error connecting bot to Slack:',err);
-        } else {
-          trackBot(bot);
-        }
-      });
-    }
-  }
-
-});
 
 
 
@@ -782,3 +762,26 @@ controller.hears(['(.*)'], ['slash_command'], function(bot, message) {
 // #learning_ux                     C4PNLMNTW
 // #wireframe_prototype             C4PNLK4KW
 // #usability_testing               C4QCEMMF1
+
+
+// storage team data
+controller.storage.teams.all(function(err,teams) {
+
+  if (err) {
+    throw new Error(err);
+  }
+
+  // connect all teams with bots up to slack!
+  for (var t  in teams) {
+    if (teams[t].bot) {
+      controller.spawn(teams[t]).startRTM(function(err, bot) {
+        if (err) {
+          console.log('Error connecting bot to Slack:',err);
+        } else {
+          trackBot(bot);
+        }
+      });
+    }
+  }
+
+});
