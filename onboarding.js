@@ -283,6 +283,62 @@ controller.hears(['get gsiuxd invite', 'to invite someone', 'add into this group
 
 });
 
+// bot hears ux books
+controller.hears(['ux(.*)books', 'ux(.*)reading(.*)material'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
+
+  // start a conversation to handle this response.
+  bot.startConversation(message,function(err,convo) {
+
+    convo.ask('Are you looking out for UX books? Say `YES` or `NO`',[
+      {
+        pattern: bot.utterances.yes,
+        callback: function(response,convo) {
+          convo.say('Okay!');
+          convo.say('Here is our *<https://medium.com/gsiuxd/recommended-ux-books-87cc4ae69b66|recommended books.>*');
+          // do something else...
+          convo.next();
+
+        }
+      },
+      {
+        pattern: bot.utterances.no,
+        //default: true,
+        callback: function(response,convo) {
+          convo.say('Okay!');
+          // do something else...
+          convo.next();
+        }
+      },
+      {
+        pattern: 'quit',
+        default: true,
+        callback: function(response,convo) {
+          //conclude a message before quitting 
+          convo.say("Okay! Never mind.");
+          convo.next(); // move to the next convo and stop the conversation 
+        }
+      },
+      {
+          callback: function(response,convo) {
+          convo.stop(); // current conversation stops here 
+          }
+      },
+
+      {
+        //default: true,
+        callback: function(response,convo) {
+          // just repeat the question
+          convo.repeat();
+          convo.next();
+        }
+      }
+    ]);
+
+  })
+
+});
+
+
 // bot hears its name
 controller.hears(['uxbot', 'ux(.*)bot', 'our(.*)slackbot'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
   bot.reply(message, "I'm also a slackbot, but compiled into a Slack App.")
@@ -627,7 +683,75 @@ controller.hears(["heaven$"], [ 'direct_message','direct_mention','mention'], fu
 /* Slash Command starts
 ======================================= */
 
-// add commands 
+
+// slash command - /gsiuxd help
+controller.hears(["help"],['slash_command'],function(bot,message) {
+  var reply_with_attachments = {
+    //'username': 'My bot' ,
+    'text': "*It seems you need `help` in something.*",
+    'attachments': [
+      {
+        //'fallback': 'To be useful, I need you to invite me in a channel.',
+        'title': 'Talk to me privately va `DM`.',
+        'text': "You can also speak with one of our `admins`/`moderators`",
+        'color': '#7CD197',
+        'mrkdwn_in': ["text", "pretext","text","title"]
+      }
+    ],
+    //'icon_url': 'http://lorempixel.com/48/48'
+    }
+
+  bot.replyPrivate(message, reply_with_attachments);
+});
+
+
+
+// slash command - /gsiuxd slack invite
+controller.hears(["slack invite"],['slash_command'],function(bot,message) {
+  var reply_with_attachments = {
+    //'username': 'My bot' ,
+    'text': "*Looking for our `Slack Invite` link?*",
+    'attachments': [
+      {
+        //'fallback': 'To be useful, I need you to invite me in a channel.',
+        'title': 'Here is our <https://gsiuxd.herokuapp.com|GSIUXD Slack Invite.> ',
+        'text': "Just share this link with your friends to register.",
+        'color': '#7CD197',
+        'mrkdwn_in': ["text", "pretext","text","title"]
+      }
+    ],
+    //'icon_url': 'http://lorempixel.com/48/48'
+    }
+
+  bot.replyPrivate(message, reply_with_attachments);
+});
+
+
+// slash command - /gsiuxd ux books
+controller.hears(["ux(.*)books"],['slash_command'],function(bot,message) {
+  var reply_with_attachments = {
+    //'username': 'My bot' ,
+    'text': "*Looking out for UX books?*",
+    'attachments': [
+      {
+        //'fallback': 'To be useful, I need you to invite me in a channel.',
+        'title': 'Here is our <https://medium.com/gsiuxd/recommended-ux-books-87cc4ae69b66|recommended books> ',
+        'text': "We'll be adding more books into this over time.",
+        'color': '#7CD197',
+        'mrkdwn_in': ["text", "pretext","text","title"]
+      }
+    ],
+    //'icon_url': 'http://lorempixel.com/48/48'
+    }
+
+  bot.replyPrivate(message, reply_with_attachments);
+});
+
+
+// Replies to users when they feel sorry about something
+controller.hears(['(.*)'], ['slash_command'], function(bot, message) {
+    bot.replyPrivate(message, "Type `/gsiuxd help`, `/gsiuxd slack invite`, or `/gsiuxd ux books`.");
+});
 
 /* ====================================
 /* Slash Command ends 
