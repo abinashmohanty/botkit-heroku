@@ -18,6 +18,16 @@ UXbot is a Slack app and uses OAuth 2.0, and can be added to any slack team via 
 
 You can [install our Slack UXbot App](https://slack-uxbot.herokuapp.com/) for you're existing slack team. However, few things to remember. Some of the logics were written specifically for our slack team, so you need to change some of the scripts/channel IDs/etc. You can always test our [development version](#development-version) test our development version as mentioned down here. 
 
+Once, the UXbot is installed for your slack team you can interact with the bot using its slash commands or direct conversation. By default, UXbot would be joined your default slack channel aka `#general` channel. For the rest of the channels, you'll have to invite the bot by typing `/invite @uxbot` from a particular channel you're in. The UXbot will also listen to specific keywords from your regular conversation with other members, and we will talk about this below. 
+
+##### Goals - Greet new members
+
+afasfas asfasdf 
+
+![Greet new members](./media/uxbot_greetings.png)
+
+
+
 
 
 #### 3. UXbot conversations
@@ -48,7 +58,9 @@ If you wanna install and test this UXbot locally, just go through the following 
 
 ## UXbot Development
 
-######Coming soon...
+###### Coming soon...
+
+Interested to test our UXbot locally? I will share its github repo with instruction soon. 
 
 ## Credits
 #### Howdyai's [Botkit](https://github.com/howdyai/botkit)
