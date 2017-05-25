@@ -284,7 +284,7 @@ controller.hears(['get gsiuxd invite', 'to invite someone', 'add into this group
 });
 
 // bot hears ux books
-controller.hears(['ux(.*)books', 'ux(.*)reading(.*)material'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
+controller.hears(['ux(.*)books$'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
@@ -339,10 +339,11 @@ controller.hears(['ux(.*)books', 'ux(.*)reading(.*)material'], ['ambient', 'dire
 });
 
 
-// bot hears its name
-controller.hears(['uxbot', 'ux(.*)bot', 'our(.*)slackbot'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
+// bot hears its name // turning of for now
+/*controller.hears(['uxbot', 'ux(.*)bot', 'our(.*)slackbot'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
   bot.reply(message, "I'm also a slackbot, but compiled into a Slack App.")
 })
+*/
 
 
 // Replies to lol, haha, and funny words

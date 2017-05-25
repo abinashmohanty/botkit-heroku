@@ -1,6 +1,6 @@
 # [GSIUXD](http://www.gsiuxd.co) Slack App  
 
-Introducing UXbot; our 1st Slack app for GSIUXD community. This is our live and production repository that's being hosted on Heroku server. Check out our [development version](#development-version) if you wanna test this slack app on your system locally. Let's look at what this slack app does.   
+Introducing UXbot; our 1st Slack app for GSIUXD community. This is our live and production repository that's being hosted on Heroku server. Check out our [development version](#development-version) `(coming soon)`if you wanna test this slack app on your system locally. Let's look at what this slack app does.   
 
 ## UXbot Slack App
 1. About UXbot
