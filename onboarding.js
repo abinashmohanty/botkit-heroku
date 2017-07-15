@@ -238,8 +238,8 @@ controller.hears(['invite someone', 'invite my friends', 'to invite someone', 'a
       {
         pattern: bot.utterances.yes,
         callback: function(response,convo) {
-          convo.say('Okay!');
-          convo.say('Here is our *<https://gsiuxd.herokuapp.com/|GSIUXD Slack Invite>*');
+          //convo.say('Okay!');
+          convo.say('Here is the *<https://gsiuxd.herokuapp.com/|GSIUXD Slack invite link>*');
           // do something else...
           convo.next();
 
@@ -249,7 +249,7 @@ controller.hears(['invite someone', 'invite my friends', 'to invite someone', 'a
         pattern: bot.utterances.no,
         //default: true,
         callback: function(response,convo) {
-          convo.say('Okay!');
+          convo.say('');
           // do something else...
           convo.next();
         }
