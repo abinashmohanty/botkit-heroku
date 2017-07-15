@@ -229,7 +229,7 @@ bot.reply(message, "Thank you :thumbsup:");
 });
 
 /* Bot hears ux invite and conform via conversation */
-controller.hears(['get gsiuxd invite', 'to invite someone', 'add into this group', 'gsiuxd invite','slack invite', 'ux slack invite', 'group invite'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
+controller.hears(['invite someone', 'invite my friends', 'to invite someone', 'add into this group', 'gsiuxd invite','slack invite', 'ux slack invite', 'group invite'], ['ambient', 'direct_message','direct_mention','mention'], function (bot, message) {
 
   // start a conversation to handle this response.
   bot.startConversation(message,function(err,convo) {
@@ -664,8 +664,29 @@ controller.hears(["heaven$"], [ 'direct_message','direct_mention','mention'], fu
 /* Slash Command starts
 ======================================= */
 
+// slash command - /gsiuxd send invite in public - for admins
+controller.hears(["send invite"],['slash_command'],function(bot,message) {
+  var reply_with_attachments = {
+    //'username': 'My bot' ,
+    'text': "",
+    'attachments': [
+      {
+        //'fallback': 'To be useful, I need you to invite me in a channel.',
+        'title': 'Here is our <https://gsiuxd.herokuapp.com|GSIUXD Slack invite link.> ',
+        'text': "Just share this link with your friends to self sign up.",
+        'color': '#7CD197',
+        'mrkdwn_in': ["text", "pretext","text","title"]
+      }
+    ],
+    //'icon_url': 'http://lorempixel.com/48/48'
+    }
 
-// slash command - /gsiuxd help
+  bot.replyAcknowledge();
+  bot.replyPublicDelayed(message, reply_with_attachments);
+});
+
+
+// slash command private - /gsiuxd help
 controller.hears(["help"],['slash_command'],function(bot,message) {
   var reply_with_attachments = {
     //'username': 'My bot' ,
@@ -687,7 +708,7 @@ controller.hears(["help"],['slash_command'],function(bot,message) {
 
 
 
-// slash command - /gsiuxd slack invite
+// slash command private - /gsiuxd slack invite
 controller.hears(["slack invite"],['slash_command'],function(bot,message) {
   var reply_with_attachments = {
     //'username': 'My bot' ,
@@ -708,7 +729,7 @@ controller.hears(["slack invite"],['slash_command'],function(bot,message) {
 });
 
 
-// slash command - /gsiuxd ux books
+// slash command private - /gsiuxd ux books
 controller.hears(["ux(.*)books"],['slash_command'],function(bot,message) {
   var reply_with_attachments = {
     //'username': 'My bot' ,
@@ -729,7 +750,7 @@ controller.hears(["ux(.*)books"],['slash_command'],function(bot,message) {
 });
 
 
-// Replies to users when they feel sorry about something
+// Slash Command - Replies to users privately when they feel sorry about something
 controller.hears(['(.*)'], ['slash_command'], function(bot, message) {
     bot.replyPrivate(message, "Type `/gsiuxd help`, `/gsiuxd slack invite`, or `/gsiuxd ux books`.");
 });
